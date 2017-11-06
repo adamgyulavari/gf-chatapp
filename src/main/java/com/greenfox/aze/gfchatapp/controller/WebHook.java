@@ -15,7 +15,7 @@ public class WebHook {
     }
 
     @PostMapping({"/", ""})
-    public String reveive(Message message) {
+    public String receive(@RequestBody Message message) {
         try {
             System.out.println(message.object);
             System.out.println("Message received from: " + message.entry.get(0).messaging.get(0).sender.id);
