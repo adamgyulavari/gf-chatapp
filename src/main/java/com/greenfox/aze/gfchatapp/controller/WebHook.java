@@ -2,13 +2,15 @@ package com.greenfox.aze.gfchatapp.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/webhook")
 public class WebHook {
+
     @GetMapping({"/", ""})
-    public String receiveEvent() {
-        return "1943161557";
+    public String receiveEvent(@RequestParam("hub.challenge") String challenge) {
+        return challenge;
     }
 }
