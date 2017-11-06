@@ -5,6 +5,7 @@ import com.greenfox.aze.gfchatapp.model.MessageResponse;
 import com.greenfox.aze.gfchatapp.model.Messaging;
 import com.greenfox.aze.gfchatapp.model.Packet;
 import com.greenfox.aze.gfchatapp.util.HeaderRequestInterceptor;
+import com.greenfox.aze.gfchatapp.util.LoggingRequestInterceptor;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,7 @@ public class WebHook {
 
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
         interceptors.add(new HeaderRequestInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE));
+        interceptors.add(new LoggingRequestInterceptor());
         template.setInterceptors(interceptors);
 
         template.postForObject(
