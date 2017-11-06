@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebHook {
     @GetMapping({"/", ""})
     public String receiveEvent() {
-        return "ok";
+        return "1943161557";
     }
 }
