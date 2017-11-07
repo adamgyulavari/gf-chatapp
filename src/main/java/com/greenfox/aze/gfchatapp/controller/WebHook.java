@@ -50,8 +50,8 @@ public class WebHook {
         response.message.text = "Well, you too with this: " + p.entry.get(0).messaging.get(0).message.text;
         System.out.println(response.message.text);
 
-        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
-        interceptors.add(new HeaderRequestInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE));
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        interceptors.add(new HeaderRequestInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE));
         interceptors.add(new LoggingRequestInterceptor());
         template.setInterceptors(interceptors);
 
