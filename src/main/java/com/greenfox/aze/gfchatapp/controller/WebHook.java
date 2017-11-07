@@ -8,6 +8,7 @@ import com.greenfox.aze.gfchatapp.util.HeaderRequestInterceptor;
 import com.greenfox.aze.gfchatapp.util.LoggingRequestInterceptor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.bind.annotation.*;
@@ -59,8 +60,9 @@ public class WebHook {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Messaging> entity = new HttpEntity<>(response, headers);
 
-        template.postForObject(
+        template.exchange(
                 "https://graph.facebook.com/v2.6/me/messages?access_token="+token,
+                HttpMethod.POST,
                 entity,
                 MessageResponse.class
         );
