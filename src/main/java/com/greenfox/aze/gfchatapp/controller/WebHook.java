@@ -48,6 +48,7 @@ public class WebHook {
         response.recipient = p.entry.get(0).messaging.get(0).sender;
         response.message = new Message();
         response.message.text = "Well, you too with this: " + p.entry.get(0).messaging.get(0).message.text;
+        System.out.println(response.message.text);
 
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
         interceptors.add(new HeaderRequestInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE));
