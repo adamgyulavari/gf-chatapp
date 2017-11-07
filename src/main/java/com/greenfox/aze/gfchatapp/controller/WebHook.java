@@ -41,8 +41,7 @@ public class WebHook {
 
     public void sendResponse(Packet p) {
         RestTemplate template = new RestTemplate();
-        HashMap<String, String> urlParam = new HashMap<>();
-        urlParam.put("access_token", "EAAFosDvVi5cBACmOuuA7ct2Gs1neSKJDVRjPOC5CEN9IpU6XDt4V24hZCtPWTMn5yS4cLdsmnlSoZCoQoZA7pYFKuY4p0BcyilcQ4ZBPaAZAG08opsad3vI64wCFHbzkgrrZArPCTuPx0bTPHZASBZAibzWjrlChkXEaWWyh1n9miQZDZD");
+        String token = "EAAFosDvVi5cBACmOuuA7ct2Gs1neSKJDVRjPOC5CEN9IpU6XDt4V24hZCtPWTMn5yS4cLdsmnlSoZCoQoZA7pYFKuY4p0BcyilcQ4ZBPaAZAG08opsad3vI64wCFHbzkgrrZArPCTuPx0bTPHZASBZAibzWjrlChkXEaWWyh1n9miQZDZD";
 
         Messaging response = new Messaging();
         response.recipient = p.entry.get(0).messaging.get(0).sender;
@@ -56,10 +55,9 @@ public class WebHook {
         template.setInterceptors(interceptors);
 
         template.postForObject(
-                "https://graph.facebook.com/v2.6/me/messages",
+                "https://graph.facebook.com/v2.6/me/messages?access_token="+token,
                 response,
-                MessageResponse.class,
-                urlParam
+                MessageResponse.class
         );
     }
 }
