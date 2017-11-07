@@ -10,10 +10,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +48,7 @@ public class WebHook {
     }
 
     public void sendResponse(Packet p) {
-        RestTemplate template = new RestTemplate();
+        RestTemplate template = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
         String token = "EAAFosDvVi5cBACmOuuA7ct2Gs1neSKJDVRjPOC5CEN9IpU6XDt4V24hZCtPWTMn5yS4cLdsmnlSoZCoQoZA7pYFKuY4p0BcyilcQ4ZBPaAZAG08opsad3vI64wCFHbzkgrrZArPCTuPx0bTPHZASBZAibzWjrlChkXEaWWyh1n9miQZDZD";
 
         Messaging response = new Messaging();
@@ -53,18 +58,21 @@ public class WebHook {
         System.out.println(response.message.text);
 
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        interceptors.add(new HeaderRequestInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE));
         interceptors.add(new LoggingRequestInterceptor());
         template.setInterceptors(interceptors);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Messaging> entity = new HttpEntity<>(response, headers);
+        LoggingRequestInterceptor.log.debug("mukodik a logger");
+        try {
+            template.exchange(
+                    "https://graph.facebook.com/v2.6/me/messages?access_token="+token,
+                    HttpMethod.POST,
+                    entity,
+                    MessageResponse.class
+            );
+        } catch (ResourceAccessException exception) {
 
-        template.exchange(
-                "https://graph.facebook.com/v2.6/me/messages?access_token="+token,
-                HttpMethod.POST,
-                entity,
-                MessageResponse.class
-        );
+        }
     }
 }
