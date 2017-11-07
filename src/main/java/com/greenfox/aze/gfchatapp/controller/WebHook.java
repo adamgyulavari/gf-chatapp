@@ -72,7 +72,7 @@ public class WebHook {
                     MessageResponse.class
             );
         } catch (ResourceAccessException exception) {
-
+            exception.printStackTrace();
         }
     }
 }
